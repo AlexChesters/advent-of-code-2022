@@ -21,4 +21,5 @@ calorie_counts = []
 for _key, val in calories_map.items():
     calorie_counts.append(sum(val))
 
-print(f"answer is {sorted(calorie_counts, reverse=True)[0]}")
+sorted_calorie_counts = sorted(calorie_counts, reverse=True)
+print(f"answer is {sorted_calorie_counts[0] + sorted_calorie_counts[1] + sorted_calorie_counts[2]}")
