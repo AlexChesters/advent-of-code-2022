@@ -60,13 +60,10 @@ priorities = {
 
 total_priority_score = 0
 
-for item in contents:
-    midway_index = int(len(item) / 2)
+chunks = [contents[x:x+3] for x in range(0, len(contents), 3)]
 
-    first_compartment_contents = item[:midway_index]
-    second_compartment_contents = item[midway_index:]
-
-    common_items = set.intersection(*map(set, [first_compartment_contents, second_compartment_contents]))
+for chunk in chunks:
+    common_items = set.intersection(*map(set, chunk))
 
     for common_item in common_items:
         total_priority_score += priorities[common_item]
