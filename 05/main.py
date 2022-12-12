@@ -1,6 +1,6 @@
 import os
 import re
-import sys
+import json
 
 import numpy
 
@@ -49,10 +49,6 @@ for idx, column in enumerate(grid):
 
 print(f"starting grid: {grid}")
 
-# debug code
-break_after = 2
-loop_count = 1
-
 for procedure in rearrangement_procedure:
     match = re.match(procedure_regex, procedure)
     crate_count = int(match.group("crate_count"))
@@ -100,7 +96,8 @@ for procedure in rearrangement_procedure:
         if not have_moved_crate:
             moved_crate_count += 1
             crate_index += 1
-            reversed_destination.insert(0, crate_to_move)
+            # reversed_destination.insert(0, crate_to_move)
+            reversed_destination.append(crate_to_move)
 
         print(f"reversed destination after: {reversed_destination}")
 
@@ -112,20 +109,17 @@ for procedure in rearrangement_procedure:
     print(f"starting column: {starting_column}")
     print(f"destination column: {destination_column}")
 
-    print(f"new grid: {grid}")
+    print(f"new grid: {json.dumps(grid, indent=2)}")
     print("----------")
 
-    if loop_count == break_after:
-        break
-
-    loop_count += 1
+first_characters = []
 
 for row in grid:
-    print(f"first character: {row[0]}")
+    print(f"analysing row: {row}")
+    for item in row:
+        if item != "[0]":
+            match = re.match("\[(?P<letter>[A-Z]{1})\]", item)
+            first_characters.append(match.group("letter"))
+            break
 
-# moving 5 crates from column index 1 to column index 5
-# starting column: ['[0]', '[0]', '[Z]', '[B]', '[S]', '[T]', '[N]', '[D]']
-# destination column: ['[0]', '[0]', '[0]', '[0]', '[0]', '[0]', '[0]', '[F]']
-
-# starting column: ['[0]', '[0]', '[0]', '[0]', '[0]', '[0]', '[0]', '[D]']
-# destination column: ['[0]', '[0]', '[N]', '[T]', '[S]', '[B]', '[Z]', '[F]']
+print(f"first characters:", "".join(first_characters))
