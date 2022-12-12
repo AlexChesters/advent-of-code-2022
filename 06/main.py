@@ -3,6 +3,8 @@ import os
 with open(os.path.join(os.path.dirname(__file__), "input.txt"), "r", encoding="utf-8") as f:
     markers = f.read().splitlines()
 
+LOOKBACK_LENGTH = 14
+
 for marker in markers:
     print(f"processing marker: {marker}")
 
@@ -11,17 +13,21 @@ for marker in markers:
     for item in components:
         index, character = item
 
-        if index < 3:
+        if index < LOOKBACK_LENGTH:
             continue
 
-        _, one_back = components[index - 1]
-        _, two_back = components[index - 2]
-        _, three_back = components[index - 3]
+        lookback_chars = []
 
-        characters = f"{three_back}{two_back}{one_back}{character}"
+        for i in range(LOOKBACK_LENGTH - 1):
+            _, lookback_char = components[index - (i + 1)]
+            lookback_chars.append(lookback_char)
+
+        lookback_chars_str = "".join(list(reversed(lookback_chars)))
+
+        characters = f"{lookback_chars_str}{character}"
 
         print(f"processing characters {characters}")
 
-        if len(set(characters)) == 4:
+        if len(set(characters)) == LOOKBACK_LENGTH:
             print(f"found marker: {characters} at position {(index + 1)}")
             break
