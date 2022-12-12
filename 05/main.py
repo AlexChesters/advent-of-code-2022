@@ -96,7 +96,6 @@ for procedure in rearrangement_procedure:
         if not have_moved_crate:
             moved_crate_count += 1
             crate_index += 1
-            # reversed_destination.insert(0, crate_to_move)
             reversed_destination.append(crate_to_move)
 
         print(f"reversed destination after: {reversed_destination}")
